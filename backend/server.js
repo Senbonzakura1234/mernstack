@@ -8,18 +8,10 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.json());
+mongoose.connect(keys.adminURI, { useNewUrlParser: true,useCreateIndex: true,useUnifiedTopology: true });
 
-
-mongoose
-    .connect(keys.adminURI,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        })
-    .then(() => console.log('Database Connected'))
-    .catch(err => console.log(err));
-
-
+const connection = mongoose.connection;
+connection.once('open', () => console.log('Database Connected'));
     
 const port = process.env.PORT || 5000;
 app.listen(port,
